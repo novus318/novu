@@ -2,141 +2,49 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "API - TEST ENV",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:test"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/apps/api",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "API",
-      "cwd": "${workspaceFolder}/apps/api",
+      "name": "Debug SST",
       "type": "node",
       "request": "launch",
-      "args": ["${workspaceFolder}/apps/api/src/main.ts"],
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register", "-r", "tsconfig-paths/register"],
-      "sourceMaps": true,
-      "protocol": "inspector",
-      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-      "smartStep": true,
-      "stopOnEntry": false
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/sst",
+      "runtimeArgs": ["dev", "--increase-timeout"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      // sourceMapRenames helps with the loading spinner when debugging and viewing local variables
+      "sourceMapRenames": false,
+      "env": {
+        "AWS_PROFILE": "flo-ct-flo360"
+      }
     },
     {
-      "name": "Worker",
-      "cwd": "${workspaceFolder}/apps/worker",
+      "name": "Debug Tests - Unit",
       "type": "node",
       "request": "launch",
-      "args": ["${workspaceFolder}/apps/worker/src/main.ts"],
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register", "-r", "tsconfig-paths/register"],
-      "sourceMaps": true,
-      "protocol": "inspector",
-      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-      "smartStep": true,
-      "stopOnEntry": false
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/sst",
+      "runtimeArgs": ["bind", "yarn", "\"jest\"", "\"--watch\"", "\"--config\"", "\"./jest.unit.config.cjs\"", "\"${input:scopeTestsFileName}\""],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "AWS_PROFILE": "flo-ct-flo360"
+      },
     },
     {
-      "name": "DASHBOARD",
+      "name": "Debug Tests - E2E",
+      "type": "node",
       "request": "launch",
-      "runtimeArgs": ["run-script", "start"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/apps/dashboard",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/sst",
+      "runtimeArgs": ["bind", "yarn", "\"vitest\"", "\"--config\"", "\"./vitest.e2e.config.ts\"", "\"${input:scopeTestsFileName}\""],
+      "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"],
-      "type": "node"
+      "env": {
+        "AWS_PROFILE": "flo-ct-flo360"
+      },
     },
-    {
-      "name": "WIDGET",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:dev"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/apps/widget",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "WIDGET - test",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:test"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/apps/widget",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "WS",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/apps/ws",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "WS - TEST ENV",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:test"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/apps/ws",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "DAL",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:dev"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/libs/dal",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "TESTING LIB",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:dev"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/libs/testing",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "SHARED",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:dev"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/packages/shared",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "APPLICATION GENERIC",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "start:dev"],
-      "runtimeExecutable": "npm",
-      "cwd": "${workspaceFolder}/libs/application-generic",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    }
   ],
-  "compounds": [
+  "inputs": [
     {
-      "name": "-- RUN ENV - Local",
-      "configurations": ["API", "DAL", "SHARED", "DASHBOARD", "worker", "APPLICATION GENERIC"]
-    },
-    {
-      "name": "-- RUN ENV - Test",
-      "configurations": [
-        "API - TEST ENV",
-        "DAL",
-        "SHARED",
-        "TESTING LIB",
-        "WS - TEST ENV",
-        "DASHBOARD",
-        "WIDGET - test",
-        "worker"
-      ]
+      "id": "scopeTestsFileName",
+      "type": "promptString",
+      "description": "Partial file name to scope test debugging to. ex. arena. Leave blank to run all tests.",
     }
   ]
 }

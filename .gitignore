@@ -98,7 +98,6 @@ fabric.properties
 # Module directory
 .terraform/
 
-**/.env
 docker/.env
 .vercel
 nx-cloud.env
@@ -115,3 +114,7 @@ nx-cloud.env
 
 # Ignore Cursor Plans folder
 .cursor/plans
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
