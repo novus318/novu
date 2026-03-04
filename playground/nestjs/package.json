@@ -6,15 +6,15 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
-    "dev": "nest start --watch",
-    "dev:debug": "nest start --debug --watch",
-    "start": "node dist/main",
+    "build": "node init && nest build",
+    "dev": "node init && nest start --watch",
+    "dev:debug": "node init && nest start --debug --watch",
+    "start": "node init && node dist/main",
     "check": "biome check .",
     "check:fix": "biome check --write .",
     "test": "vitest",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "start:studio": "npx novu@latest dev --port 4000 --dashboard-url http://localhost:4201",
+    "start:studio": "node init && npx novu@latest dev --port 4000 --dashboard-url http://localhost:4201",
     "sync:studio": "npx novu@latest sync -s SECRET_KEY -b TUNNEL_URL -a http://localhost:3000"
   },
   "dependencies": {
