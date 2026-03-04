@@ -62,9 +62,9 @@
     "access": "public"
   },
   "scripts": {
-    "build:watch": "tsup --watch",
-    "build": "tsup && pnpm run build:declarations && pnpm run check-exports",
-    "build:declarations": "tsc -p tsconfig.declarations.json",
+    "build:watch": "node init && tsup --watch",
+    "build": "node init && tsup && pnpm run build:declarations && pnpm run check-exports",
+    "build:declarations": "node init && tsc -p tsconfig.declarations.json",
     "check-exports": "attw --pack . --ignore-rules unexpected-module-syntax",
     "publish:rc": "pnpm publish --tag rc"
   },
