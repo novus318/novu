@@ -115,3 +115,6 @@ nx-cloud.env
 
 # Ignore Cursor Plans folder
 .cursor/plans
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
