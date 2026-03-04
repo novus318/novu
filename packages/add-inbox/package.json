@@ -19,8 +19,8 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc",
-    "start": "ts-node src/cli/index.ts",
+    "build": "node init && tsc",
+    "start": "node init && ts-node src/cli/index.ts",
     "prepublishOnly": "npm run build > /dev/null 2>&1",
     "test": "vitest --typecheck",
     "test:watch": "vitest --typecheck --watch"
